@@ -11,11 +11,9 @@ const drawing = p5 => {
         let centerY = p5.height * 0.5;
         let heartRadius = p5.width * 0.1;      // 花心半径
         let petalRadius = p5.width * 0.08;      // 花瓣半径（半圆的半径）
-        let petalDistance = p5.width * 0.2;      // 花瓣中心到花心的距离
-        let petalCount = 16;                       // 花瓣数量
-
-        // 整体旋转角度（随时间增加）
-        let globalAngle = p5.frameCount * 0.05;   // 旋转速度
+        let petalDistance = p5.width * 0.15;      // 花瓣中心到花心的距离
+        let petalCount = p5.mouseX / 20;                       // 花瓣数量
+        let globalAngle = p5.frameCount * 0.02 * p5.mouseY;   // 旋转速度
 
         // 绘制花心（实心圆）
         p5.noStroke();
@@ -24,20 +22,20 @@ const drawing = p5 => {
 
         // 花瓣
         for (let i = 0; i < petalCount; i++) {
-            // 计算当前花瓣的基础角度（均匀分布）
+
             let baseAngle = (p5.TWO_PI / petalCount) * i;
             // 加上全局旋转角度，使花瓣绕花心旋转
             let angle = baseAngle + globalAngle;
 
             // 花瓣中心坐标（从花心偏移）
-            let petalX = centerX + p5.cos(angle) * petalDistance;
-            let petalY = centerY + p5.sin(angle) * petalDistance;
+            let xPos = centerX + p5.cos(angle) * petalDistance;
+            let yPos = centerY + p5.sin(angle) * petalDistance;
 
             // 保存当前绘图状态
             p5.push();
 
             // 将原点移到花瓣中心，并旋转使局部 x 轴指向径向向外
-            p5.translate(petalX, petalY);
+            p5.translate(xPos, yPos);
             p5.rotate(angle); // 旋转后，x轴正方向指向远离花心的方向
 
 
